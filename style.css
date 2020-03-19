@@ -1,0 +1,20 @@
+*{
+    border: 1px solid red;
+}
+body{
+
+}
+header{
+
+}
+main{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+.image-contentbox{
+    
+    width: 90%;
+    padding-bottom: 100%;
+    margin: 2.5% 5%;
+}
