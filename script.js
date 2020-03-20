@@ -8,7 +8,9 @@ let apikey = "66356a00-6e21-4837-b13d-dcc4caee975a";
 let row =3
 let column = 1
 let buttonArray = document.querySelectorAll("button");
+let body = document.querySelector("body");
 
+body.addEventListener('click', focus);
 for (let i =0; i < 5; i++){
     buttonArray[i].addEventListener('click', toggle)
 }
@@ -16,19 +18,19 @@ for (let i =0; i < 5; i++){
 for (let i = 1; i < 5; i++){
     divArray[i].style.gridRow = row;
     divArray[i].style.gridColumn = i;
-    divArray[i].addEventListener('click', focus)
+    
 }
 row = 2;
 for (let i = 6; i < 10; i++){
     divArray[i].style.gridRow = row;
     divArray[i].style.gridColumn = i -5;
-    divArray[i].addEventListener('click', focus)
+    
 }
 row =1;
 for (let i = 11; i < 15; i++){
     divArray[i].style.gridRow = row;
     divArray[i].style.gridColumn = i -10;
-    divArray[i].addEventListener('click', focus)
+    
 }
 
 
@@ -39,7 +41,6 @@ for (let i = 0; i<15; i++){
     assignPhoto(i);
 }
 
-console.log(divArray);
 var fetchArray =[];
 assignPhoto();
 
@@ -51,7 +52,7 @@ function assignPhoto (i) {
     })
     .then(res => res.json())
     .then(res => {divImg[i].setAttribute("src",res[0].url)})
-    .catch(err => console.log("oops"))
+    .catch(err => {})
 }
 
 
@@ -67,37 +68,47 @@ function assignPhoto (i) {
  */
 
 function focus(e) {
-    console.log("working");
+    e.preventDefault();
     let popUpDiv = document.querySelector('.modal');
     let popUpContent = popUpDiv.querySelector('h1');
     let popUpImage = popUpDiv.querySelector('img');
     let main = document.querySelector('main');
+    if (e.target.className != "image"){
+        popUpDiv.style.display = "none"
+        return;
+    }
+
     popUpDiv.style.display = "flex";
     popUpImage.setAttribute("src", e.target.src); 
-    console.log(popUpImage);
-    console.log(popUpContent);
-    console.log(popUpDiv);
-    popUpDiv.addEventListener('click', loseFocus);
-    popUpDiv.addEventListener('click', switchContent);
-    main.appendChild(popUpDiv);
 }
 function switchContent(e){
+    e.preventDefault();
     if (e.target.className == "modal-image"){
-        e.target.style.display = "none"
-        e.target.parentElement.querySelector('modal-content').style.display ="block"
+        document.querySelector('.modal-image').style.display = "none"
+        document.querySelector('.modal-content').style.display ="block"
     }
         
     else if (e.target.className == 'modal-content'){
-        e.target.style.display = "none"
-        e.target.parentElement.querySelector('modal-image').style.display="block";
+        document.querySelector(".modal-content").style.display = "none";
+        document.querySelector('.modal-image').style.display="block";
+    }
+    else{
+        return;
     }
 
 }
 function loseFocus(e){
+    e.preventDefault();
     let modal = document.querySelector(".modal");
-    if (e.target.parentElement.className !== "modal") {
-        modal.style.display = "none";
+    let image = document.querySelector(".modal-image")
+    let content = document.querySelector(".modal-content");
+    if (modal.style.display =="none"){
+        return;
     }
+    if(e.target !== image && e.target !== content)
+    {   console.log(e.target);
+        modal.style.display = "none";}
+    
 }
 
 
