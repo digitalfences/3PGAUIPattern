@@ -1,6 +1,6 @@
 
 body{
-
+    background-color: lemonchiffon;
 }
 header{
     display: flex;
@@ -27,11 +27,15 @@ main{
 }
 .modal {
     display: none;
-    position: fixed;
+    position: absolute;
     z-index: 1;
-    margin: 0 25%;
-    width: 75%;
-    height: 75%;
+
+    width: 33%;
+    padding-bottom: 33%;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -150px;
     grid-row: 1/ span 2;
     background-color: rgb(255,255,255);
     background-color: rgba(255,255,255,0.4);

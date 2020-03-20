@@ -3,8 +3,10 @@ let divImg = document.querySelectorAll('.image');
 let divContent = document.querySelectorAll('.content');
 let cat = '';
 let url = "https://api.thecatapi.com/v1/images/search";
+let chicagoUrl = "https://data.cityofchicago.org/resource/s4vu-giwb.json";
 let categoryURL = "https://api.thecatapi.com/v1/images/search?category_ids=";
 let apikey = "66356a00-6e21-4837-b13d-dcc4caee975a";
+let chicagoKey = "";
 let row =3
 let column = 1
 let buttonArray = document.querySelectorAll("button");
@@ -33,12 +35,9 @@ for (let i = 11; i < 15; i++){
     
 }
 
-
-
-
-
 for (let i = 0; i<15; i++){
     assignPhoto(i);
+    assignContent(i);
 }
 
 var fetchArray =[];
@@ -51,11 +50,20 @@ function assignPhoto (i) {
         }
     })
     .then(res => res.json())
-    .then(res => {divImg[i].setAttribute("src",res[0].url)})
+    .then(res => {
+        divImg[i].setAttribute("src",res[0].url);     
+    })
     .catch(err => {})
 }
-
-
+function assignContent (i){
+    fetch(chicagoUrl)
+    .then(res => res.json())
+    .then(res => {
+        console.log(res[i]);     
+    })
+    .catch(err => {})
+    //set the content of each catBox
+}
 
 
 /**
@@ -86,39 +94,21 @@ function focus(e) {
         }
         else{
             popUpDiv.style.display = "none"
-        return;
-        }
-        
+            return;
+        }   
     }
     else{
         if(popUpDiv.style.display == "none"){
             popUpDiv.style.display = "block";
             popUpImage.setAttribute("src", e.target.src);
+            popUpContent.innerHTML = "";
         }
         else{
             popUpDiv.style.display = "none"
             return;
         }
-    }
-
-     
+    }     
 }
-function switchContent(e){
-    e.preventDefault();
-    if (e.target.className == "modal-image"){
-        
-    }
-        
-    else if (e.target.className == 'modal-content'){
-        document.querySelector(".modal-content").style.display = "none";
-        document.querySelector('.modal-image').style.display="block";
-    }
-    else{
-        return;
-    }
-}
-
-
 /**
  * toggle()
  * 
