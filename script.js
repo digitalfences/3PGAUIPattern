@@ -68,41 +68,34 @@ function assignPhoto (i) {
 
 function focus(e) {
     console.log("working");
-    let popUpDiv = document.createElement('div');
-    let popUpContent = document.createElement('h1');
-    let popUpImage = document.createElement('img');
+    let popUpDiv = document.querySelector('.modal');
+    let popUpContent = popUpDiv.querySelector('h1');
+    let popUpImage = popUpDiv.querySelector('img');
     let main = document.querySelector('main');
-
-    popUpDiv.classList.add("modal");
-    popUpContent.classList.add("modal-content");
-    popUpContent.innerText = "Helloworld"
+    popUpDiv.style.display = "flex";
     popUpImage.setAttribute("src", e.target.src); 
-    popUpImage.classList.add("modal-image");
     console.log(popUpImage);
     console.log(popUpContent);
     console.log(popUpDiv);
     popUpDiv.addEventListener('click', loseFocus);
     popUpDiv.addEventListener('click', switchContent);
-    popUpDiv.appendChild(popUpImage);
-    popUpDiv.appendChild(popUpContent);
     main.appendChild(popUpDiv);
 }
 function switchContent(e){
     if (e.target.className == "modal-image"){
         e.target.style.display = "none"
-        e.target.parentElement.querySelector('modal-content')
+        e.target.parentElement.querySelector('modal-content').style.display ="block"
     }
         
     else if (e.target.className == 'modal-content'){
         e.target.style.display = "none"
-        e.target.parentElement.querySelector('modal-content')
+        e.target.parentElement.querySelector('modal-image').style.display="block";
     }
 
 }
 function loseFocus(e){
-    
-    
-    if (e.target.className !== "modal-image") {
+    let modal = document.querySelector(".modal");
+    if (e.target.parentElement.className !== "modal") {
         modal.style.display = "none";
     }
 }
