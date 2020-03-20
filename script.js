@@ -77,9 +77,18 @@ function focus(e) {
         popUpDiv.style.display = "none"
         return;
     }
+    else{
+        if(popUpDiv.style.display == "none"){
+            popUpDiv.style.display = "block";
+            popUpImage.setAttribute("src", e.target.src);
+        }
+        else{
+            popUpDiv.style.display = "none"
+            return;
+        }
+    }
 
-    popUpDiv.style.display = "flex";
-    popUpImage.setAttribute("src", e.target.src); 
+     
 }
 function switchContent(e){
     e.preventDefault();
