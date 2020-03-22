@@ -1,12 +1,13 @@
 let divArray = document.querySelectorAll(".image-contentbox");
 let divImg = document.querySelectorAll('.image');
-let divContent = document.querySelectorAll('.content');
-let cat = '';
+let divContent = ["","","","","","","","","","","","","","",""];
 let url = "https://api.thecatapi.com/v1/images/search";
-let chicagoUrl = "https://data.cityofchicago.org/resource/s4vu-giwb.json";
+let chicago1Url = "kn9c-c2s2.json";
+let chicago2Url ="e2v8-k3us.json";
+let chicago3Url ="wwy2-k7b3.json";
 let categoryURL = "https://api.thecatapi.com/v1/images/search?category_ids=";
 let apikey = "66356a00-6e21-4837-b13d-dcc4caee975a";
-let chicagoKey = "";
+let chicagoBase = "https://data.cityofchicago.org/resource/";
 let row =3
 let column = 1
 let buttonArray = document.querySelectorAll("button");
@@ -17,31 +18,30 @@ for (let i =0; i < 5; i++){
     buttonArray[i].addEventListener('click', toggle)
 }
 
-for (let i = 1; i < 5; i++){
+for (let i = 0; i < 5; i++){
     divArray[i].style.gridRow = row;
     divArray[i].style.gridColumn = i;
+    assignContent(i, chicago3Url);
     
 }
 row = 2;
-for (let i = 6; i < 10; i++){
+for (let i = 5; i < 10; i++){
     divArray[i].style.gridRow = row;
     divArray[i].style.gridColumn = i -5;
+    assignContent(i, chicago3Url);
     
 }
 row =1;
-for (let i = 11; i < 15; i++){
+for (let i = 10; i < 15; i++){
     divArray[i].style.gridRow = row;
     divArray[i].style.gridColumn = i -10;
+    assignContent(i, chicago3Url);
     
 }
 
 for (let i = 0; i<15; i++){
-    assignPhoto(i);
-    assignContent(i);
+    assignPhoto(i);   
 }
-
-var fetchArray =[];
-assignPhoto();
 
 function assignPhoto (i) {
     fetch(url, {
@@ -55,11 +55,15 @@ function assignPhoto (i) {
     })
     .catch(err => {})
 }
-function assignContent (i){
-    fetch(chicagoUrl)
+function assignContent (i, urlAdd){
+    fetch(chicagoBase+ urlAdd)
     .then(res => res.json())
     .then(res => {
-        console.log(res[i]);     
+        let dogFriend = "THE CANINE MENACE ABOUNDS...";
+        if (res[i].dog_friendly == 0){
+            dogFriend = "NO! CATZ RULE!";
+        }
+        divContent[i] = "<h1>Name: " + res[i].park_name + "</h1><p>Street Address: " + res[i].street_address +"<br><br>Acres: " +res[i].acres +"<br><br>Dog Friendly?: " +dogFriend +"</p>";    
     })
     .catch(err => {})
     //set the content of each catBox
@@ -78,15 +82,18 @@ function assignContent (i){
 function focus(e) {
     e.preventDefault();
     let popUpDiv = document.querySelector('.modal');
-    let popUpContent = popUpDiv.querySelector('.modal-content');
+    let popUpContent = document.querySelector('.modal-content');
     let popUpImage = popUpDiv.querySelector('.modal-image');
     let main = document.querySelector('main');
     popUpImage.style.display ="block";
-    popUpContent.style.display = "none"; 
+    popUpContent.style.display = "none";
+    
     if (e.target.className != "image"){
         if(e.target.className == 'modal-image'){
             document.querySelector('.modal-image').style.display = "none"
             document.querySelector('.modal-content').style.display ="block"
+        
+            popUpContent.style.background = "rgba (255,255,255,.4)";
         }
         else if (e.target.className == 'modal-content'){
             document.querySelector('.modal-image').style.display = "block"
@@ -101,7 +108,12 @@ function focus(e) {
         if(popUpDiv.style.display == "none"){
             popUpDiv.style.display = "block";
             popUpImage.setAttribute("src", e.target.src);
-            popUpContent.innerHTML = "";
+            for(let i = 0; i < divImg.length; i++){
+                if(e.target == divImg[i]){
+                    popUpContent.innerHTML = divContent[i];
+                    popUpContent.style.textAlign = "center";
+                }
+            } 
         }
         else{
             popUpDiv.style.display = "none"
