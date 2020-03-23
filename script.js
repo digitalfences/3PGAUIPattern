@@ -95,7 +95,7 @@ function focus(e) {
         
             popUpContent.style.background = "rgba (255,255,255,.4)";
         }
-        else if (e.target.className == 'modal-content'){
+        else if (e.target.parentNode.className == 'modal-content'){
             document.querySelector('.modal-image').style.display = "block"
             document.querySelector('.modal-content').style.display ="none"
         }
@@ -133,12 +133,10 @@ function focus(e) {
  * tabs
  */
 
- function toggle(e){
 
- }
-/*function toggle(e) {
-    let sheetSrc = document.getElementById("style1");
-    let newSheet = e.target.value;
+function toggle(e) {
+    let sheetSrc = document.querySelector("#style");
+    let newSheet = e.target.innerText;
     let newSheetPath = "./" + newSheet + ".css";
     sheetSrc.setAttribute('href',newSheetPath);
-}*/
+}
